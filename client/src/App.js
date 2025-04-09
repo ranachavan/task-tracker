@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+
 import axios from 'axios';
 import TaskList from './components/TaskList';
 import TaskForm from './components/TaskForm';
 import FilterButtons from './components/FilterButtons';
 import './App.css';
+import { BrowserRouter } from 'react-router-dom';
 
 // Base URL from environment variable or fallback
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://task-tracker-production-218d.up.railway.app';
@@ -64,6 +66,7 @@ function App() {
   });
 
   return (
+    <BrowserRouter> 
     <div className="app">
       <h1>Task Tracker</h1>
       <TaskForm onAddTask={addTask} />
@@ -78,6 +81,7 @@ function App() {
         />
       )}
     </div>
+    </BrowserRouter>
   );
 }
 
