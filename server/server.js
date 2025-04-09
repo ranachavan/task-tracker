@@ -14,12 +14,22 @@ app.use(express.json());
 app.use('/api/tasks', taskRoutes);
 
 // Database connection
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => {
+const connectDB = async () => {
+  try {
+    console.log('Attempting to connect with URI:', process.env.MONGODB_URI); // Debug line
+    await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
     console.log('Connected to MongoDB');
     const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
-  })
-  .catch(err => console.error('MongoDB connection error:', err));
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+    process.exit(1); // Exit process with failure
+  }
+};
+
+connectDB();
