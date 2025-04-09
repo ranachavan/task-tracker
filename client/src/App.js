@@ -5,6 +5,9 @@ import TaskForm from './components/TaskForm';
 import FilterButtons from './components/FilterButtons';
 import './App.css';
 
+// Base URL from environment variable or fallback
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://task-tracker-production-218d.up.railway.app';
+
 function App() {
   const [tasks, setTasks] = useState([]);
   const [filter, setFilter] = useState('all');
@@ -16,7 +19,7 @@ function App() {
 
   const fetchTasks = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/tasks');
+      const response = await axios.get(`${API_BASE_URL}/api/tasks`);
       setTasks(response.data);
       setLoading(false);
     } catch (err) {
@@ -27,7 +30,7 @@ function App() {
 
   const addTask = async (task) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/tasks', task);
+      const response = await axios.post(`${API_BASE_URL}/api/tasks`, task);
       setTasks([response.data, ...tasks]);
     } catch (err) {
       console.error('Error adding task:', err);
@@ -36,7 +39,7 @@ function App() {
 
   const toggleComplete = async (id, completed) => {
     try {
-      await axios.put(`http://localhost:5000/api/tasks/${id}`, { completed });
+      await axios.put(`${API_BASE_URL}/api/tasks/${id}`, { completed });
       setTasks(tasks.map(task => 
         task._id === id ? { ...task, completed } : task
       ));
@@ -47,7 +50,7 @@ function App() {
 
   const deleteTask = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/tasks/${id}`);
+      await axios.delete(`${API_BASE_URL}/api/tasks/${id}`);
       setTasks(tasks.filter(task => task._id !== id));
     } catch (err) {
       console.error('Error deleting task:', err);
