@@ -1,13 +1,8 @@
 [build]
-  base = "/"              # Tells Netlify the config applies to frontend/
-  command = "CI= npm run build"
-  publish = "build"       # Create React App's output folder
-  functions = "functions" # Only if using Netlify Functions
+  base = "client"
+  command = "CI= npm install && npm run build"
+  publish = "client/build"
 
-[context.production.environment]
-  REACT_APP_API_URL = "https://task-tracker-production-218d.up.railway.app"
-
-# Required for React Router/SPA
 [[redirects]]
   from = "/*"
   to = "/index.html"
